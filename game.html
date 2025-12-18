@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Gerenciamento de Crises - Caso Eduardo</title>
+    <style>
+       /* ESTILO TÁTICO - PRETO E AMARELO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #000000;
+    color: #f0f0f0;
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 40px,
+            rgba(255, 204, 0, 0.05) 40px,
+            rgba(255, 204, 0, 0.05) 41px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 40px,
+            rgba(255, 204, 0, 0.05) 40px,
+            rgba(255, 204, 0, 0.05) 41px
+        );
+    background-size: 41px 41px;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 20% 80%,
+        rgba(255, 204, 0, 0.1) 0%,
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: rgba(10, 10, 10, 0.95);
+    border-radius: 3px;
+    padding: 25px;
+    box-shadow: 
+        0 0 40px rgba(255, 204, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 204, 0, 0.2),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+    border: 2px solid #ffcc00;
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000000,
+        #000000 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+    );
+}
+
+.container::after {
+    content: "CLASSIFICADO - NÍVEL ALPHA";
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background: #ffcc00;
+    color: #000;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 3px solid #ffcc00;
+    position: relative;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+    );
+}
+
+h1 {
+    color: #ffcc00;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    text-shadow: 
+        0 0 15px rgba(255, 204, 0, 0.7),
+        2px 2px 0 #000;
+    letter-spacing: 2px;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+h1::before,
+h1::after {
+    content: "⚫";
+    color: #ffcc00;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+h1::before {
+    left: -10px;
+}
+
+h1::after {
+    right: -10px;
+}
+
+.subtitle {
+    color: #ffcc00;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 20px;
+    display: inline-block;
+    border: 1px solid #ffcc00;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+}
+
+.stats-bar {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to right, #111111, #222222, #111111);
+    padding: 15px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    border: 2px solid #ffcc00;
+    box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.8),
+        0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 204, 0, 0.1) 10px,
+        rgba(255, 204, 0, 0.1) 20px
+    );
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    margin: 0 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+}
+
+.stat-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    right: -5px;
+    height: 70%;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+        transparent, 
+        #ffcc00, 
+        transparent);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #ffcc00;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 
+        0 0 10px rgba(255, 204, 0, 0.8),
+        2px 2px 0 #000;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+#timer {
+    color: #ff3300;
+    animation: pulse-danger 1.5s infinite;
+}
+
+.scene-container {
+    background: linear-gradient(to bottom, #0a0a0a, #111111);
+    padding: 25px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    border: 2px solid #ffcc00;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(255, 204, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.scene-container::before {
+    content: "CRISE ATIVA";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ffcc00;
+    color: #000;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 2px;
+    letter-spacing: 1px;
+}
+
+.scene-text {
+    font-size: 1.15rem;
+    margin-bottom: 25px;
+    line-height: 1.7;
+    color: #e0e0e0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    background: rgba(20, 20, 20, 0.7);
+    border-left: 4px solid #ffcc00;
+    border-radius: 2px;
+}
+
+.highlight {
+    color: #ffcc00;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.option-btn {
+    background: linear-gradient(to right, #1a1a1a, #222222);
+    color: #cccccc;
+    border: 2px solid #333333;
+    border-radius: 3px;
+    padding: 18px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.option-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: #ffcc00;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.option-btn:hover {
+    background: linear-gradient(to right, #222222, #2a2a2a);
+    border-color: #ffcc00;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 5px 15px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 204, 0, 0.5);
+}
+
+.option-btn:hover::before {
+    transform: scaleY(1);
+}
+
+.option-btn:active {
+    transform: translateY(0);
+}
+
+.option-btn.selected {
+    background: linear-gradient(to right, #332a00, #443300);
+    border-color: #ffcc00;
+    color: #ffffff;
+    box-shadow: 
+        inset 0 0 20px rgba(255, 204, 0, 0.2),
+        0 0 0 2px rgba(255, 204, 0, 0.5);
+}
+
+.option-btn.selected::before {
+    transform: scaleY(1);
+}
+
+.option-btn.correct {
+    background: linear-gradient(to right, #1a3300, #224400);
+    border-color: #00ff00;
+    color: #aaffaa;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 255, 0, 0.2),
+        0 0 0 2px rgba(0, 255, 0, 0.5);
+}
+
+.option-btn.incorrect {
+    background: linear-gradient(to right, #330000, #440000);
+    border-color: #ff3300;
+    color: #ffaaaa;
+    box-shadow: 
+        inset 0 0 20px rgba(255, 0, 0, 0.2),
+        0 0 0 2px rgba(255, 0, 0, 0.5);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 18px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.action-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.action-btn:hover::before {
+    left: 100%;
+}
+
+#submit-btn {
+    background: linear-gradient(to bottom, #005500, #003300);
+    color: #ffffff;
+    border: 2px solid #00aa00;
+}
+
+#submit-btn:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #006600, #004400);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+#next-btn {
+    background: linear-gradient(to bottom, #333300, #222200);
+    color: #ffffff;
+    border: 2px solid #ffcc00;
+    display: none;
+}
+
+#next-btn:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #444400, #333300);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+}
+
+#restart-btn, #restart-result-btn {
+    background: linear-gradient(to bottom, #550000, #330000);
+    color: #ffffff;
+    border: 2px solid #ff3300;
+}
+
+#restart-btn:hover, #restart-result-btn:hover {
+    background: linear-gradient(to bottom, #660000, #440000);
+    box-shadow: 0 0 20px rgba(255, 51, 0, 0.3);
+}
+
+.action-btn:disabled {
+    background: linear-gradient(to bottom, #222222, #111111);
+    color: #666666;
+    border-color: #444444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.feedback-container {
+    background: linear-gradient(to bottom, #111111, #0a0a0a);
+    padding: 25px;
+    border-radius: 3px;
+    margin-top: 25px;
+    border: 2px solid #ffcc00;
+    display: none;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(255, 204, 0, 0.2);
+    position: relative;
+}
+
+.feedback-container::before {
+    content: "ANÁLISE TÁTICA";
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #ffcc00;
+    color: #000;
+    padding: 3px 15px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 2px;
+    letter-spacing: 1px;
+}
+
+.feedback-title {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 204, 0, 0.3);
+}
+
+#feedback-text {
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(20, 20, 20, 0.7);
+    border-radius: 3px;
+    border-left: 4px solid #ffcc00;
+}
+
+.manual-reference {
+    background: linear-gradient(to right, #1a1a00, #222200);
+    padding: 18px;
+    border-radius: 3px;
+    margin-top: 20px;
+    border-left: 5px solid #ffcc00;
+    font-size: 0.95rem;
+    color: #ffffcc;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.manual-reference::before {
+    content: "REFERÊNCIA DO MANUAL";
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #000;
+    color: #ffcc00;
+    padding: 0 10px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.result-screen {
+    text-align: center;
+    padding: 50px 30px;
+    display: none;
+    background: linear-gradient(to bottom, #0a0a0a, #111111);
+    border-radius: 3px;
+    border: 3px solid #ffcc00;
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(255, 204, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.result-screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000000,
+        #000000 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+    );
+}
+
+.result-title {
+    color: #ffcc00;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 
+        0 0 20px rgba(255, 204, 0, 0.8),
+        3px 3px 0 #000;
+    letter-spacing: 3px;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.result-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(to right, 
+        transparent, 
+        #ffcc00, 
+        transparent);
+}
+
+.score-display {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #ffcc00;
+    margin: 40px 0;
+    text-shadow: 
+        0 0 30px rgba(255, 204, 0, 0.9),
+        4px 4px 0 #000;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 5px;
+    animation: pulse-gold 2s infinite;
+    position: relative;
+    display: inline-block;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid #ffcc00;
+    border-radius: 5px;
+}
+
+.score-display::before,
+.score-display::after {
+    content: "✦";
+    color: #ffcc00;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+}
+
+.score-display::before {
+    left: 10px;
+}
+
+.score-display::after {
+    right: 10px;
+}
+
+.result-message {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    color: #e0e0e0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 25px;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    line-height: 1.8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.result-message::before {
+    content: "⚠";
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    background: #000;
+    color: #ffcc00;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffcc00;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 12px;
+    background: #000;
+    border-radius: 6px;
+    margin: 25px 0;
+    overflow: hidden;
+    border: 2px solid #333;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #ffcc00, #ffaa00);
+    width: 0%;
+    transition: width 1s ease;
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.2),
+        0 0 10px rgba(255, 204, 0, 0.5);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 5px,
+        rgba(255, 255, 255, 0.1) 5px,
+        rgba(255, 255, 255, 0.1) 10px
+    );
+}
+
+.question-counter {
+    color: #ffcc00;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 15px;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    float: right;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse-danger {
+    0% { 
+        color: #ff3300;
+        text-shadow: 0 0 10px rgba(255, 51, 0, 0.8);
+    }
+    50% { 
+        color: #ff6600;
+        text-shadow: 0 0 20px rgba(255, 102, 0, 0.9);
+    }
+    100% { 
+        color: #ff3300;
+        text-shadow: 0 0 10px rgba(255, 51, 0, 0.8);
+    }
+}
+
+@keyframes pulse-gold {
+    0% { 
+        color: #ffcc00;
+        text-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+    }
+    50% { 
+        color: #ffff00;
+        text-shadow: 0 0 30px rgba(255, 255, 0, 1);
+    }
+    100% { 
+        color: #ffcc00;
+        text-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+    }
+}
+
+.timer-warning {
+    animation: pulse-danger 0.8s infinite !important;
+}
+
+/* Efeito de grade digital */
+.digital-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: 
+        linear-gradient(rgba(255, 204, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 204, 0, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .stats-bar {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        margin: 5px 0;
+    }
+    
+    .stat-item:not(:last-child)::after {
+        display: none;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .score-display {
+        font-size: 4rem;
+        padding: 15px 25px;
+    }
+    
+    .result-title {
+        font-size: 2.2rem;
+    }
+    
+    .container::after {
+        right: -45px;
+        font-size: 10px;
+        padding: 4px 35px;
+    }
+}
+
+/* Efeito de scanline */
+.scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, 
+        transparent, 
+        rgba(255, 204, 0, 0.8), 
+        transparent);
+    z-index: 9999;
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scanline {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+/* Indicador de status */
+.status-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 15px;
+    height: 15px;
+    background: #ffcc00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+    animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7);
+    }
+    70% { 
+        box-shadow: 0 0 0 10px rgba(255, 204, 0, 0);
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OCORRÊNCIA 0417</h1>
+            <div class="subtitle">Quiz: Gerenciamento de Crises - TOMADA DE DECISÃO</div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-label">TEMPO RESTANTE</div>
+                <div class="stat-value" id="timer">60</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">PONTUAÇÃO</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">PERGUNTA</div>
+                <div class="stat-value" id="question-counter">1/5</div>
+            </div>
+        </div>
+
+        <div id="game-screen">
+            <div class="scene-container">
+                <div class="question-counter" id="question-info"></div>
+                <div class="scene-text" id="scene-text"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="options-container" id="options-container">
+                <!-- Opções serão inseridas por JavaScript -->
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" id="submit-btn" disabled>CONFIRMAR DECISÃO</button>
+                <button class="action-btn" id="next-btn" disabled>PRÓXIMA DECISÃO</button>
+                <button class="action-btn" id="restart-btn">REINICIAR MISSÃO</button>
+            </div>
+
+            <div class="feedback-container" id="feedback-container">
+                <div class="feedback-title" id="feedback-title"></div>
+                <div id="feedback-text"></div>
+                <div class="manual-reference" id="manual-reference"></div>
+            </div>
+        </div>
+
+        <div class="result-screen" id="result-screen">
+            <h2 class="result-title">MISSÃO CONCLUÍDA</h2>
+            <div class="score-display" id="final-score">0</div>
+            <div class="result-message" id="result-message"></div>
+            <button class="action-btn" id="restart-result-btn">NOVA MISSÃO</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados do jogo
+        const gameData = {
+            score: 0,
+            currentQuestion: 0,
+            timer: 60,
+            timerInterval: null,
+            selectedOption: null,
+            gameActive: true,
+            questions: [
+                {
+                    id: 1,
+                    scene: "Você anuncia sua presença e ordena que Eduardo se entregue. Ele não responde, apenas segura a mulher mais forte. Você percebe que ele está em pânico. O apoio está a 3 minutos de distância. O que você faz?",
+                    options: [
+                        { 
+                            text: "Avançar imediatamente e tentar subjugar Eduardo", 
+                            correct: false,
+                            feedback: "DECISÃO ARRISCADA: Avançar sem negociação pode provocar uma reação violenta imediata. De acordo com o manual, a prioridade é preservar vidas e ganhar tempo para negociação.",
+                            manualRef: "Manual: 'Preservar vidas (reféns, cidadãos, policiais, causadores da crise) é o objetivo fundamental. Falha de antecipação é um erro comum de gerenciamento.'"
+                        },
+                        { 
+                            text: "Recuar e esperar o apoio chegar em 3 minutos", 
+                            correct: false,
+                            feedback: "DECISÃO PASSIVA: Esperar pode dar a Eduardo tempo para se tornar mais perigoso ou machucar a vítima. A compressão de tempo exige ação proativa.",
+                            manualRef: "Manual: 'Compressão de tempo (urgência) é característica essencial. Necessidade de postura organizacional não-rotineira.'"
+                        },
+                        { 
+                            text: "Iniciar processo de negociação para ganhar tempo e acalmar Eduardo", 
+                            correct: true,
+                            feedback: "DECISÃO CORRETA: Iniciar negociação segue os protocolos de gerenciamento de crises. Ganhar tempo permite que o apoio chegue e reduz a tensão.",
+                            manualRef: "Manual: 'Negociadores capazes de se comunicarem com os perpetradores e ganharem sua confiança. Objetivo: preservar vidas.'"
+                        },
+                        { 
+                            text: "Atirar para incapacitar Eduardo imediatamente", 
+                            correct: false,
+                            feedback: "DECISÃO EXTREMA: Usar força letal sem esgotar outras opções viola protocolos e pode resultar em tragédia desnecessária.",
+                            manualRef: "Manual: 'Aplicar a lei deve considerar critérios de validade do risco, aceitabilidade legal, moral e ética.'"
+                        }
+                    ],
+                    timeLimit: 60
+                },
+                {
+                    id: 2,
+                    scene: "Eduardo responde às suas tentativas de negociação: 'Eu só quero que ela entenda! Ela me traiu!' Ele está emocionalmente abalado mas ainda mantém a faca na garganta da mulher. Como você procede?",
+                    options: [
+                        { 
+                            text: "Concordar com ele para ganhar confiança: 'Ela errou com você, Eduardo'", 
+                            correct: false,
+                            feedback: "MANIPULAÇÃO PERIGOSA: Concordar com a distorção da realidade pode validar sua raiva e torná-lo mais perigoso depois.",
+                            manualRef: "Manual: 'Falha em usar a inteligência da negociação é erro comum. Negociadores devem ganhar confiança sem validar ações ilegais.'"
+                        },
+                        { 
+                            text: "Ignorar o comentário e focar na rendição: 'Larga a faca agora!'", 
+                            correct: false,
+                            feedback: "COMUNICAÇÃO INEFICAZ: Ignorar suas emoções perde oportunidade de conexão. Pessoas em crise precisam sentir que são ouvidas.",
+                            manualRef: "Manual: 'Negociadores capazes de se comunicarem com os perpetradores e ganharem sua confiança.'"
+                        },
+                        { 
+                            text: "Validar o sentimento sem concordar com ações: 'Eu entendo que você está magoado, mas a faca não vai resolver'", 
+                            correct: true,
+                            feedback: "COMUNICAÇÃO EFETIVA: Validar emoções cria rapport sem endossar comportamento violento. Abre espaço para negociação.",
+                            manualRef: "Manual: 'Gerenciamento de crises é um processo racional e analítico de resolver problemas baseado em probabilidades.'"
+                        },
+                        { 
+                            text: "Ameaçar com consequências legais: 'Se você machucá-la, vai pegar 30 anos de prisão'", 
+                            correct: false,
+                            feedback: "AMEAÇA CONTRAPRODUTIVA: Ameaças aumentam o pânico e podem provocar ação impulsiva. Pessoas em crise não pensam racionalmente.",
+                            manualRef: "Manual: 'Stress reduz a capacidade de desempenho. O gerenciamento de crises é uma complexa tarefa de resolução de problemas.'"
+                        }
+                    ],
+                    timeLimit: 50
+                },
+                {
+                    id: 3,
+                    scene: "Durante a negociação, Eduardo solta a mulher por um segundo para gesticular. Ela tem uma oportunidade de escapar, mas hesita. Você vê isso através da janela. O que instruir via rádio para o sniper posicionado?",
+                    options: [
+                        { 
+                            text: "Ordenar ataque imediato do sniper enquanto Eduardo está distraído", 
+                            correct: false,
+                            feedback: "RISCO ALTO: A vítima ainda está muito próxima. Tiro pode errar ou Eduardo pode reagir antes de cair, machucando-a.",
+                            manualRef: "Manual: 'Irreversibilidade e segurança (dos reféns, circunstantes, policiais e bandidos) são princípios básicos da resolução.'"
+                        },
+                        { 
+                            text: "Instruir a mulher a correr para a saída com um sinal discreto", 
+                            correct: true,
+                            feedback: "OPORTUNIDADE TÁTICA: Criar distância entre vítima e agressor aumenta segurança para intervenção. Sinal discreto evita alertar Eduardo.",
+                            manualRef: "Manual: 'Diversão: Consiste em afastar a atenção dos bandidos do ponto de entrada ou invasão.'"
+                        },
+                        { 
+                            text: "Manter posição e continuar negociação normalmente", 
+                            correct: false,
+                            feedback: "OPORTUNIDADE PERDIDA: Situações dinâmicas exigem adaptação tática. Manter protocolo rigidamente pode custar vidas.",
+                            manualRef: "Manual: 'Necessidade de: postura organizacional não-rotineira; planejamento analítico especial e capacidade de implementação.'"
+                        },
+                        { 
+                            text: "Ordenar entrada da equipe SWAT imediatamente", 
+                            correct: false,
+                            feedback: "AÇÃO PREMATURA: Entrada sem sinal claro pode resultar em tiroteio com vítima no meio. Equipe pode não estar em posição ideal.",
+                            manualRef: "Manual: 'Rapidez + Surpresa + Agressividade da Ação devem ser balanceadas com segurança e isolamento.'"
+                        }
+                    ],
+                    timeLimit: 45
+                },
+                {
+                    id: 4,
+                    scene: "A mulher consegue escapar! Eduardo agora está sozinho, armado apenas com a faca, mas extremamente agitado. Ele grita: 'Agora acabou tudo mesmo!' e levanta a faca como se fosse se machucar. O apoio chegou. Qual estratégia adotar?",
+                    options: [
+                        { 
+                            text: "Assalto dinâmico imediato com gás lacrimogêneo", 
+                            correct: false,
+                            feedback: "ESCALADA DESNECESSÁRIA: Eduardo não mais ameaça terceiros. Uso de força pode transformar automutilação em confronto letal.",
+                            manualRef: "Manual: 'Critérios de ação: necessidade, validade do risco, aceitabilidade (legal, moral e ética).'"
+                        },
+                        { 
+                            text: "Continuar negociação focada em prevenção de suicídio", 
+                            correct: true,
+                            feedback: "TRANSIÇÃO EFETIVA: Com refém seguro, prioridade muda para preservar vida do causador da crise. Negociação ainda é ferramenta principal.",
+                            manualRef: "Manual: 'Preservar vidas inclui causadores da crise. Objetivos: 1- Preservar Vidas, 2- Aplicar a lei.'"
+                        },
+                        { 
+                            text: "Usar rifle de precisão para incapacitação não-letal", 
+                            correct: false,
+                            feedback: "ALTO RISCO: 'Tiros para incapacitar' são imprecisos e frequentemente letais. Não são tática padrão em situações de crise.",
+                            manualRef: "Manual: 'Franco-atiradores (Snipers) são componentes táticos. Compromisso de matar (commitment to kill) é doutrinário.'"
+                        },
+                        { 
+                            text: "Recuar e esperar ele se cansar sozinho", 
+                            correct: false,
+                            feedback: "ABDICAÇÃO DE RESPONSABILIDADE: Situação ainda requer gerenciamento ativo. Esperar pode resultar em suicídio ou fuga armada.",
+                            manualRef: "Manual: 'A crise é não-seletiva (ninguém está imune a ela), é inesperada. Responsabilidade é fundamento ético.'"
+                        }
+                    ],
+                    timeLimit: 40
+                },
+                {
+                    id: 5,
+                    scene: "Após 20 minutos de negociação, Eduardo começa a demonstrar exaustão. Ele baixa a faca, chora e diz: 'Não aguento mais'. Ele está prestes a se render. Como finalizar a situação com segurança máxima?",
+                    options: [
+                        { 
+                            text: "Aproximar-se sozinho para prender Eduardo pessoalmente", 
+                            correct: false,
+                            feedback: "RISCO INDIVIDUAL: Aproximação sem apoio tático coloca você em risco desnecessário. Eduardo pode mudar de ideia rapidamente.",
+                            manualRef: "Manual: 'Componentes táticos de uma SWAT: Atacantes (Assaulters), Franco-atiradores (Snipers). Trabalho em equipe é essencial.'"
+                        },
+                        { 
+                            text: "Ordenar que ele jogue a faca e venha de mãos vazias", 
+                            correct: false,
+                            feedback: "PROCEDIMENTO INCOMPLETO: Instruções vagas podem levar a mal-entendidos. Procedimentos de rendição devem ser específicos e seguros.",
+                            manualRef: "Manual: 'Planejamento e coordenação reduzem ao mínimo a influência destruidora de conflitos durante respostas coordenadas.'"
+                        },
+                        { 
+                            text: "Dar instruções claras e graduais com equipe tática posicionada", 
+                            correct: true,
+                            feedback: "PROTOCOLO PROFISSIONAL: Instruções graduais (jogar faca, ajoelhar, mãos atrás da cabeça) com equipe pronta maximiza segurança para todos.",
+                            manualRef: "Manual: 'Resolução com princípios de irreversibilidade, segurança e isolamento. Estrutura de resposta coordenada.'"
+                        },
+                        { 
+                            text: "Usar taser imediatamente enquanto ele está vulnerável", 
+                            correct: false,
+                            feedback: "USO DESNECESSÁRIO DE FORÇA: Eduardo está se rendendo voluntariamente. Uso de taser pode ser considerado força excessiva.",
+                            manualRef: "Manual: 'Aplicar a lei considerando critérios de validade do risco e aceitabilidade legal, moral e ética.'"
+                        }
+                    ],
+                    timeLimit: 35
+                }
+            ]
+        };
+
+        // Elementos DOM
+        const sceneText = document.getElementById('scene-text');
+        const optionsContainer = document.getElementById('options-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const restartResultBtn = document.getElementById('restart-result-btn');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackText = document.getElementById('feedback-text');
+        const manualReference = document.getElementById('manual-reference');
+        const timerElement = document.getElementById('timer');
+        const scoreElement = document.getElementById('score');
+        const questionCounter = document.getElementById('question-counter');
+        const questionInfo = document.getElementById('question-info');
+        const progressFill = document.getElementById('progress-fill');
+        const gameScreen = document.getElementById('game-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const finalScore = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+
+        // Inicializar jogo
+        function initGame() {
+            gameData.score = 0;
+            gameData.currentQuestion = 0;
+            gameData.selectedOption = null;
+            gameData.gameActive = true;
+            
+            scoreElement.textContent = '0';
+            gameScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
+            
+            loadQuestion();
+        }
+
+        // Carregar pergunta atual
+        function loadQuestion() {
+            const question = gameData.questions[gameData.currentQuestion];
+            
+            // Atualizar interface
+            sceneText.textContent = question.scene;
+            questionCounter.textContent = `${gameData.currentQuestion + 1}/${gameData.questions.length}`;
+            questionInfo.textContent = `DECISÃO ${gameData.currentQuestion + 1}: Gerenciamento de Crise - Prioridade: Preservar Vidas`;
+            
+            // Atualizar barra de progresso
+            const progressPercent = ((gameData.currentQuestion) / gameData.questions.length) * 100;
+            progressFill.style.width = `${progressPercent}%`;
+            
+            // Limpar opções anteriores
+            optionsContainer.innerHTML = '';
+            
+            // Adicionar novas opções
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('button');
+                optionElement.className = 'option-btn';
+                optionElement.innerHTML = `<strong>Opção ${index + 1}:</strong> ${option.text}`;
+                optionElement.dataset.index = index;
+                
+                // CORREÇÃO AQUI: Usar função arrow para preservar o contexto
+                optionElement.addEventListener('click', function() {
+                    selectOption(index, optionElement);
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Resetar seleção - CORREÇÃO IMPORTANTE
+            gameData.selectedOption = null;
+            gameData.gameActive = true; // <-- ESSA LINHA RESOLVE O PROBLEMA!
+            submitBtn.disabled = true;
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'block';
+            feedbackContainer.style.display = 'none';
+            
+            // Iniciar temporizador
+            startTimer(question.timeLimit);
+        }
+
+        // Selecionar opção
+        function selectOption(index, element) {
+            console.log("Selecionando opção:", index, "gameActive:", gameData.gameActive); // Debug
+            
+            if (!gameData.gameActive) {
+                console.log("Jogo não está ativo!"); // Debug
+                return;
+            }
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Selecionar nova opção
+            element.classList.add('selected');
+            gameData.selectedOption = index;
+            submitBtn.disabled = false;
+            
+            // Efeito visual
+            element.classList.add('pulse');
+            setTimeout(() => element.classList.remove('pulse'), 500);
+        }
+
+        // Iniciar temporizador
+        function startTimer(seconds) {
+            clearInterval(gameData.timerInterval);
+            
+            gameData.timer = seconds;
+            timerElement.textContent = gameData.timer;
+            timerElement.classList.remove('timer-warning');
+            
+            gameData.timerInterval = setInterval(() => {
+                gameData.timer--;
+                timerElement.textContent = gameData.timer;
+                
+                // Aviso visual quando o tempo está acabando
+                if (gameData.timer <= 10) {
+                    timerElement.classList.add('timer-warning');
+                }
+                
+                // Tempo esgotado
+                if (gameData.timer <= 0) {
+                    clearInterval(gameData.timerInterval);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        // Tempo esgotado
+        function timeUp() {
+            if (!gameData.gameActive) return;
+            
+            gameData.gameActive = false;
+            
+            // Mostrar resposta correta
+            const question = gameData.questions[gameData.currentQuestion];
+            const correctIndex = question.options.findIndex(opt => opt.correct);
+            
+            document.querySelectorAll('.option-btn').forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                } else if (gameData.selectedOption === index) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Mostrar feedback
+            feedbackTitle.textContent = "⏰ TEMPO ESGOTADO!";
+            feedbackText.textContent = "A compressão de tempo é característica essencial de crises. Decisões devem ser tomadas rapidamente, mas com análise adequada.";
+            manualReference.textContent = "Manual: 'Compressão de tempo (urgência) é característica essencial. Stress reduz a capacidade de desempenho.'";
+            
+            feedbackContainer.style.display = 'block';
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'block';
+            nextBtn.disabled = false;
+            
+            // Penalidade por tempo
+            gameData.score = Math.max(0, gameData.score - 10);
+            scoreElement.textContent = gameData.score;
+        }
+
+        // Submeter resposta
+        function submitAnswer() {
+            if (gameData.selectedOption === null || !gameData.gameActive) return;
+            
+            clearInterval(gameData.timerInterval);
+            gameData.gameActive = false;
+            
+            const question = gameData.questions[gameData.currentQuestion];
+            const selectedOption = question.options[gameData.selectedOption];
+            const correctIndex = question.options.findIndex(opt => opt.correct);
+            
+            // Marcar opções corretas/incorretas
+            document.querySelectorAll('.option-btn').forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                } else if (index === gameData.selectedOption && index !== correctIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Calcular pontos (baseado no tempo restante)
+            let pointsEarned = 0;
+            if (selectedOption.correct) {
+                pointsEarned = Math.floor(gameData.timer / 2) + 20; // Bônus por rapidez
+                feedbackTitle.textContent = "✅ DECISÃO CORRETA!";
+                feedbackTitle.style.color = '#4aff9d';
+            } else {
+                pointsEarned = 0;
+                feedbackTitle.textContent = "❌ DECISÃO INCORRETA";
+                feedbackTitle.style.color = '#ff4a4a';
+            }
+            
+            gameData.score += pointsEarned;
+            scoreElement.textContent = gameData.score;
+            
+            // Mostrar feedback
+            feedbackText.textContent = selectedOption.feedback;
+            manualReference.textContent = selectedOption.manualRef;
+            
+            feedbackContainer.style.display = 'block';
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'block';
+            nextBtn.disabled = false;
+        }
+
+        // Próxima pergunta
+        function nextQuestion() {
+            gameData.currentQuestion++;
+            
+            if (gameData.currentQuestion < gameData.questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Mostrar resultados finais
+        function showResults() {
+            gameScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            
+            finalScore.textContent = gameData.score;
+            
+            // Mensagem baseada na pontuação
+            let message = "";
+            if (gameData.score >= 180) {
+                message = "EXCELENTE DESEMPENHO! Você demonstrou domínio completo dos princípios de gerenciamento de crises. Suas decisões priorizaram a preservação de vidas enquanto aplicavam a lei de forma ética e profissional.";
+            } else if (gameData.score >= 120) {
+                message = "BOM DESEMPENHO! Você mostrou compreensão dos protocolos de crise, com algumas decisões que poderiam ser mais eficazes. Continue estudando os manuais e protocolos.";
+            } else if (gameData.score >= 80) {
+                message = "DESEMPENHO REGULAR. Você precisa revisar os princípios de gerenciamento de crises. Lembre-se: preservação de vidas é a prioridade, seguida pela aplicação da lei.";
+            } else {
+                message = "DESEMPENHO ABAIXO DO ESPERADO. É fundamental estudar os manuais de gerenciamento de crises antes de assumir responsabilidades em situações críticas. Vidas dependem de decisões adequadas.";
+            }
+            
+            resultMessage.textContent = message;
+        }
+
+        // Event Listeners
+        submitBtn.addEventListener('click', submitAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', initGame);
+        restartResultBtn.addEventListener('click', initGame);
+
+        // Inicializar o jogo quando a página carregar
+        window.addEventListener('DOMContentLoaded', initGame);
+
+        // Teclas de atalho
+        document.addEventListener('keydown', (e) => {
+            if (!gameData.gameActive) return;
+            
+            // Teclas 1-4 para selecionar opções
+            if (e.key >= '1' && e.key <= '4') {
+                const index = parseInt(e.key) - 1;
+                const optionElements = document.querySelectorAll('.option-btn');
+                if (index < optionElements.length) {
+                    selectOption(index, optionElements[index]);
+                }
+            }
+            
+            // Enter para submeter
+            if (e.key === 'Enter' && submitBtn.style.display !== 'none' && !submitBtn.disabled) {
+                submitAnswer();
+            }
+            
+            // Espaço para próxima pergunta
+            if (e.key === ' ' && nextBtn.style.display !== 'none' && !nextBtn.disabled) {
+                nextQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
